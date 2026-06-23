@@ -41,4 +41,32 @@ function showScreen(screen) {
 // Показать Game Over
 function showGameOver(winner, score1, score2) {
     finalScore.textContent = `${score1} - ${score2}`;
-    winnerText.textContent = winner
+    winnerText.textContent = winner ? `🏆 ${winner} ПОБЕДИЛ!` : '🤝 НИЧЬЯ!';
+    showScreen(gameOverScreen);
+}
+
+// Обновление рекорда
+function updateHighScore() {
+    highScoreEl.textContent = loadHighScore();
+}
+
+// Обработчики кнопок (будут вызваны из main.js)
+function startGame(mode) {
+    window.startGameCallback(mode);
+}
+
+function openSettings() {
+    alert('Настройки будут добавлены в следующей версии!');
+}
+
+function togglePause() {
+    window.togglePauseCallback();
+}
+
+function backToMenu() {
+    window.backToMenuCallback();
+}
+
+function rematch() {
+    window.rematchCallback();
+}
