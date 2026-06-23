@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tron: Disc Battle</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Фоновое видео (как в TRON) -->
+    <video id="bgVideo" autoplay muted loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-grid-abstract-1920x1080-3921.mp4" type="video/mp4">
+    </video>
+
+    <!-- Главное меню -->
+    <div id="menuScreen" class="screen active">
+        <div class="menu-container glass">
+            <h1 class="neon-title">⚡ DISC BATTLE ⚡</h1>
+            <div class="menu-buttons">
+                <button onclick="startGame('1p')" class="neon-btn">🎮 1 Игрок (vs AI)</button>
+                <button onclick="startGame('2p')" class="neon-btn">👥 2 Игрока</button>
+                <button onclick="openSettings()" class="neon-btn">⚙️ Настройки</button>
+            </div>
+            <div class="menu-footer">
+                <span>🏆 Рекорд: <span id="highScore">0</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Игровой экран -->
+    <div id="gameScreen" class="screen">
+        <canvas id="gameCanvas"></canvas>
+        <!-- HUD -->
+        <div id="hud">
+            <div class="player-hud" id="p1Hud">
+                <span class="player-name" style="color:#00ffff">PLAYER 1</span>
+                <div class="health-bar">
+                    <div class="health-fill" id="p1Health" style="width:100%; background:#00ffff;"></div>
+                </div>
+                <span class="score" id="p1Score">0</span>
+            </div>
+            <div class="player-hud" id="p2Hud">
+                <span class="player-name" style="color:#ff6600">PLAYER 2</span>
+                <div class="health-bar">
+                    <div class="health-fill" id="p2Health" style="width:100%; background:#ff6600;"></div>
+                </div>
+                <span class="score" id="p2Score">0</span>
+            </div>
+        </div>
+        <!-- Кнопка паузы -->
+        <button id="pauseBtn" onclick="togglePause()">⏸</button>
+    </div>
+
+    <!-- Экран окончания игры -->
+    <div id="gameOverScreen" class="screen">
+        <div class="menu-container glass">
+            <h2 class="neon-title" id="winnerText">🏆 ПОБЕДИТЕЛЬ</h2>
+            <p class="final-score" id="finalScore">0 - 0</p>
+            <button onclick="backToMenu()" class="neon-btn">🏠 В меню</button>
+            <button onclick="rematch()" class="neon-btn">🔄 Реванш</button>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/disc.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
