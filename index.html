@@ -7,57 +7,147 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Фоновое видео (как в TRON) -->
+    <!-- Фоновое видео -->
     <video id="bgVideo" autoplay muted loop playsinline>
         <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-grid-abstract-1920x1080-3921.mp4" type="video/mp4">
     </video>
 
-    <!-- Главное меню -->
+    <!-- Меню -->
     <div id="menuScreen" class="screen active">
         <div class="menu-container glass">
-            <h1 class="neon-title">⚡ DISC BATTLE ⚡</h1>
-            <div class="menu-buttons">
-                <button onclick="startGame('1p')" class="neon-btn">🎮 1 Игрок (vs AI)</button>
-                <button onclick="startGame('2p')" class="neon-btn">👥 2 Игрока</button>
-                <button onclick="openSettings()" class="neon-btn">⚙️ Настройки</button>
+            <div class="logo-container">
+                <div class="neon-ring"></div>
+                <h1 class="neon-title">
+                    <span class="glitch" data-text="⚡ DISC">⚡ DISC</span>
+                    <span class="glitch" data-text="BATTLE ⚡">BATTLE ⚡</span>
+                </h1>
+                <div class="title-line"></div>
+                <p class="subtitle">⚡ ВОЙДИ В СЕТЬ ⚡</p>
             </div>
+            
+            <div class="menu-buttons">
+                <button onclick="startGame('1p')" class="neon-btn primary">
+                    <span class="btn-icon">🎮</span>
+                    <span class="btn-text">Битва с AI</span>
+                    <span class="btn-glow"></span>
+                </button>
+                <button onclick="startGame('2p')" class="neon-btn secondary">
+                    <span class="btn-icon">👥</span>
+                    <span class="btn-text">Два игрока</span>
+                    <span class="btn-glow"></span>
+                </button>
+                <button onclick="openSettings()" class="neon-btn tertiary">
+                    <span class="btn-icon">⚙️</span>
+                    <span class="btn-text">Настройки</span>
+                    <span class="btn-glow"></span>
+                </button>
+            </div>
+
             <div class="menu-footer">
-                <span>🏆 Рекорд: <span id="highScore">0</span></span>
+                <div class="stat-item">
+                    <span class="stat-icon">🏆</span>
+                    <span class="stat-label">Рекорд</span>
+                    <span class="stat-value" id="highScore">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">👾</span>
+                    <span class="stat-label">Онлайн</span>
+                    <span class="stat-value">1,234</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-dot"></span>
+                    <span class="stat-label">Сервер</span>
+                    <span class="stat-value">активен</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Игровой экран -->
+    <!-- Игра -->
     <div id="gameScreen" class="screen">
         <canvas id="gameCanvas"></canvas>
+        
         <!-- HUD -->
         <div id="hud">
             <div class="player-hud" id="p1Hud">
-                <span class="player-name" style="color:#00ffff">PLAYER 1</span>
-                <div class="health-bar">
-                    <div class="health-fill" id="p1Health" style="width:100%; background:#00ffff;"></div>
+                <div class="hud-top">
+                    <div class="player-avatar" style="border-color:#00ffff;">
+                        <span>P1</span>
+                    </div>
+                    <span class="player-name" style="color:#00ffff;">PLAYER 1</span>
                 </div>
-                <span class="score" id="p1Score">0</span>
+                <div class="health-container">
+                    <div class="health-bar">
+                        <div class="health-fill" id="p1Health" style="width:100%;"></div>
+                    </div>
+                    <span class="health-text" id="p1HealthText">100</span>
+                </div>
+                <div class="score-container">
+                    <span class="score-label">🏆</span>
+                    <span class="score-value" id="p1Score">0</span>
+                </div>
             </div>
+
+            <div class="hud-center">
+                <div class="vs-badge">⚡ VS ⚡</div>
+                <div class="round-display" id="roundDisplay">ROUND 1</div>
+            </div>
+
             <div class="player-hud" id="p2Hud">
-                <span class="player-name" style="color:#ff6600">PLAYER 2</span>
-                <div class="health-bar">
-                    <div class="health-fill" id="p2Health" style="width:100%; background:#ff6600;"></div>
+                <div class="hud-top">
+                    <div class="player-avatar" style="border-color:#ff6600;">
+                        <span>P2</span>
+                    </div>
+                    <span class="player-name" style="color:#ff6600;">PLAYER 2</span>
                 </div>
-                <span class="score" id="p2Score">0</span>
+                <div class="health-container">
+                    <div class="health-bar">
+                        <div class="health-fill" id="p2Health" style="width:100%;"></div>
+                    </div>
+                    <span class="health-text" id="p2HealthText">100</span>
+                </div>
+                <div class="score-container">
+                    <span class="score-label">🏆</span>
+                    <span class="score-value" id="p2Score">0</span>
+                </div>
             </div>
         </div>
-        <!-- Кнопка паузы -->
-        <button id="pauseBtn" onclick="togglePause()">⏸</button>
+
+        <!-- Кнопки управления -->
+        <div id="controls">
+            <button id="pauseBtn" onclick="togglePause()">⏸</button>
+        </div>
+
+        <!-- Сообщения -->
+        <div id="messageContainer"></div>
     </div>
 
-    <!-- Экран окончания игры -->
+    <!-- Game Over -->
     <div id="gameOverScreen" class="screen">
-        <div class="menu-container glass">
-            <h2 class="neon-title" id="winnerText">🏆 ПОБЕДИТЕЛЬ</h2>
-            <p class="final-score" id="finalScore">0 - 0</p>
-            <button onclick="backToMenu()" class="neon-btn">🏠 В меню</button>
-            <button onclick="rematch()" class="neon-btn">🔄 Реванш</button>
+        <div class="menu-container glass gameover-panel">
+            <div class="gameover-icon" id="winnerIcon">🏆</div>
+            <h2 class="gameover-title" id="winnerText">ПОБЕДИТЕЛЬ</h2>
+            <div class="gameover-score" id="finalScore">0 - 0</div>
+            <div class="gameover-details">
+                <div class="detail-item">
+                    <span class="detail-label">Раунды</span>
+                    <span class="detail-value" id="roundsPlayed">0</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Время</span>
+                    <span class="detail-value" id="gameTime">00:00</span>
+                </div>
+            </div>
+            <div class="gameover-buttons">
+                <button onclick="rematch()" class="neon-btn primary">
+                    <span class="btn-icon">🔄</span>
+                    <span class="btn-text">Реванш</span>
+                </button>
+                <button onclick="backToMenu()" class="neon-btn tertiary">
+                    <span class="btn-icon">🏠</span>
+                    <span class="btn-text">В меню</span>
+                </button>
+            </div>
         </div>
     </div>
 
